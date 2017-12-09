@@ -27,3 +27,15 @@ warp the class?
 # Unittest
 
 test case dependency and order
+
+
+# Skill
+
+
+## Avoid __getattribute__ recursion
+
+__getattribute__ is the entry of all access request to class and obj
+
+object.__getattribute__(obj, '<your member name>')
+type(obj).__getattribute__(obj, '<your member name>')
+
