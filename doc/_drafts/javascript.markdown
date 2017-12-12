@@ -42,6 +42,19 @@ Convert the JavaScript object into a JSON string, then convert it back into a Ja
 JSON.parse(JSON.stringify(o))
 ```
 
+## Set
+
+new Set(<Iterable>)
+
+## Array
+
+**Merge two arrays**
+```
+const arr1 = [1,2]
+const arr2 = [3, 4]
+const arr3 = [...arr1, ...arr2]
+```
+
 
 
 # Reference
