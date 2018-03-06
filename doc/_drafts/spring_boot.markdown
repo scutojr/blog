@@ -6,7 +6,10 @@
 - @RestController, @Controller
 - @Configuration
 - @EnableAutoConfiguration  # You should only ever add one @EnableAutoConfiguration annotation.
-- @SpringBootApplication
+- [@SpringBootApplication](https://docs.spring.io/spring-boot/docs/current/reference/html/using-boot-using-springbootapplication-annotation.html)
+```
+The @SpringBootApplication annotation is equivalent to using @Configuration, @EnableAutoConfiguration and @ComponentScan with their default attributes:
+```
 - @ComponentScan (to find your beans)
 - @Autowired (to do constructor injection)
 - @Component
@@ -45,3 +48,7 @@ public class Application {
 
 }
 ```
+
+# TODO
+
+1. a relation hierarchy of annotation is necessary?
