@@ -41,6 +41,13 @@ where:
 As i know, this command will echo msg like 'cgdelete: cannot remove group 'hubble-agent': No such file or directory', but it succeeds most of the time
 ```
 
+- create a control group
+```
+cgcreate -t uid:gid -a uid:gid -g controllers:path
+```
+controllers is not necessary to the subsystem combination
+
+
 - lssubsys
 
 lscgroup
@@ -91,10 +98,15 @@ Network namespaces
 
 
 
-terminlogy in cgroup:
+## terminlogy in cgroup:
     1. https://access.redhat.com/documentation/en-us/red_hat_enterprise_linux/6/html/resource_management_guide/sec-relationships_between_subsystems_hierarchies_control_groups_and_tasks
     2. usage and tools
     https://access.redhat.com/documentation/en-us/red_hat_enterprise_linux/7/html/resource_management_guide/sec-default_cgroup_hierarchies
+    
+### hierarchy
+### group
+### subsystem
+### controllers
     
     
     
@@ -170,7 +182,7 @@ lssubsys -am
 1. subsystem特定的组合后，不能再切割或变成一个子组合。  这应该是rule 2
 
 
-# TOD
+# TODO
 
 1. 研究systemd and cgroup，他们怎样组合一起使用？
 2. umount <hierarchy>的副作用以及怎样解决？
@@ -186,3 +198,5 @@ apply systemd config change:
 # systemctl daemon-reload
 # systemctl restart example.service
 ```
+
+7. [how to let cgroup mount all the subsystem on start up for centos 6.x](https://www.digitalocean.com/community/tutorials/how-to-limit-resources-using-cgroups-on-centos-6)
