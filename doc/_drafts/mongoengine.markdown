@@ -18,7 +18,7 @@ postfix of this string matches exactly one of the document class name.
 # Skill
 
 ```
-import json
+from bson import json_util # don't use json package
 
 
 Document.to_mongo() # instance of bson
@@ -27,5 +27,12 @@ Cursor.as_pymongo() # instance of bson
 
 Cursor.to_json() # instance of str
 
-
 ```
+
+# FAQ
+
+**how to update an embedded document in mongoengine**
+
+
+
+

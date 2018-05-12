@@ -1,4 +1,9 @@
 
+# Content
+
+- react pattern
+
+
 # Philosophy
 
 React philosophy is that props should be immutable and top-down.
@@ -232,8 +237,6 @@ Convention to organzie react code?
        
         react-bootstrap的代码组织以及 index.js的作用
 ```
-
-
 
 
 # Related Framework
