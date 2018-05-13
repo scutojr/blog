@@ -2,17 +2,18 @@
 title: 分布式协调系统
 categories: ['ZooKeeper']
 ---
+
 HA方案汇总：
-    1. influxdb: raft or ha relay
+1. influxdb: raft or ha relay
 
 
 paxos
-    - 算法上的解释，弄一个图来演示；该算法要解决的工程性问题
-    - 有哪些系统基于paxos算法，性能和运维问题
-    - ZK的体系架构，性能，流量和容量控制
-    - ZK的运维问题， hadoop生态是怎样使用ZK，如果ZK一旦出现问题，那么会有什么影响，我们怎样规避这些问题比如隔离？
-    - 我印象中ZK是被人诟病的，究竟有什么问题，什么原因导致的？
-    - ZK node的合理大小？ 写请求的合理大小？
+- 算法上的解释，弄一个图来演示；该算法要解决的工程性问题
+- 有哪些系统基于paxos算法，性能和运维问题
+- ZK的体系架构，性能，流量和容量控制
+- ZK的运维问题， hadoop生态是怎样使用ZK，如果ZK一旦出现问题，那么会有什么影响，我们怎样规避这些问题比如隔离？
+- 我印象中ZK是被人诟病的，究竟有什么问题，什么原因导致的？
+- ZK node的合理大小？ 写请求的合理大小？
 拜占庭条件和非拜占庭条件。
 
 
@@ -29,9 +30,118 @@ paxos
 
 # 使用案例
 
+api有哪些？
+
+
+**TODO**
+- introduce how does hadoop implement ha based on ZK
+
+## 应用场景
+
+### Leader Election
+
+ZooKeeper可以用来实现关键节点的主备切换，比如NameNode, ResourceManager, HMaster
+{% codeblock ResourceManager HA Directory Structure on ZooKeeper %}
+|-- yarn-leader-election
+|   |-- yarn-resourcemanager
+|   |   |-- ActiveBreadCrumb
+|   |   |-- ActiveStandbyElectorLock
+{% endcodeblock %}
+
+以ResourceManager为例， 2个RM 实例会尝试独占锁ActiveStandbyElectorLock，这是一个EPHEMERAL ZNode。获得这个锁的实例就会变成Active ResourceManager, 而Standby ResourceManager会不断监听和尝试获取这个Lock， 当Active RM 处于unhealthy状态或退出状态时，原来的Standby RM就能取得这个锁并且成为Active RM。
+
+另外一个ZNode ActiveBreadCrumb用于记录当前Active RM的信息:
+
+{% codeblock ActiveBreadCrumb %}
+yarn-jy-resourcemanagerrm1
+cZxid = 0x1dbd964912
+ctime = Tue May 08 19:34:26 CST 2018
+mZxid = 0x1dbd9f53c8
+mtime = Tue May 08 19:41:09 CST 2018
+pZxid = 0x1dbd964912
+cversion = 0
+dataVersion = 168
+aclVersion = 0
+ephemeralOwner = 0x0
+dataLength = 30
+numChildren = 0
+{% endcodeblock %}
+
+### Configuration Management
+
+配置信息可以存储在特定的ZNode中，相关的系统会监听该ZNode的变化，一旦有更新就马上接到通知并且读取最新的配置信息。
+
+### Group Membership
+
+目的是动态监听组内成员的变化，增加、减少或状态变更。典型的应用场景为：
+- 动态扩容
+- 故障发现
+- 服务发现，比如Hive Discovery on ZooKeeper
+
+### Task Distributing
+
+在分布式环境下将不同的任务负载分发给不同的实例来处理是一种非常常见的需求，一般可以通过中间件比如Message Queue或ZooKeeper来实现。以下是基于Zookeeper的实现过程：
+
+task generator 将新任务task-n写到tasks node下，另外的监控进程会将task-n分配给机器m-1，当task-n被完成后，task-n相关的所有信息就会被删除。参与这个过程的所有实例都会监听到task-n节点的状态变化。
+
+{% codeblock ResourceManager HA Directory Structure on ZooKeeper %}
+|-- tasks
+|   |-- task-1
+|   |-- task-2
+|   |-- ...
+|   |-- task-n
+|-- machines
+|   |-- m-1
+|   |   |-- task-n
+{% endcodeblock %}
+
+
+### Locks
+
+**TODO**
+- lock 的种类
+- 控制并发的方法
+
+ZK可以实现排他锁和读写锁，具体实现原理如下： 
+
+{% codeblock lang:python Exclusive Lock and Write Lock %}
+1: n = create("parent/write-", EPHEMERAL|SEQUENTIAL)
+2: Children = getChildren("parent", false)
+3: if n is the lowest znode in Children, return
+4: p = znode among Children just before n
+5: if exists(p, true) wait for p to be deleted
+6: goto 2
+{% endcodeblock %}
+
+{% codeblock lang:python Read Lock %}
+1: n = create("parent/read-", EPHEMERAL|SEQUENTIAL)
+2: Children = getChildren("parent", false)
+3: if no write znodes lower than n in Children, return
+4: p = write znode in Children just before n 
+5: if exists(p, true) wait for p to be deleted
+6: goto 3
+{% endcodeblock %}
+
+{% codeblock lang:python Ulock %}
+1: delete(n)
+{% endcodeblock %}
+
+### Barrier
+
+在某些场景下，我们需要等待所有相关的实例到达某个状态时才能执行下一步操作。在ZK的场景下，当实例完成后，就会在相关的node下创建node来表明自己已经到达同步点。当监听到node达到一定数量后，就可以进行下一步操作。
+
+
+### 其他开源系统是怎样使用ZK的
+
+1. yarn怎样用，存了什么信息？ 比如AMRMTokenSecretManagerRoot， RMAppRoot， RMVersionNode， RMDTSecretManagerRoot
+
 ## 正常使用方式
 
 ## 注意事项
+
+
+---
+
 
 # 运维问题
 
