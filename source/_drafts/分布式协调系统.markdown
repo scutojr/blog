@@ -1,0 +1,51 @@
+---
+title: 分布式协调系统
+categories: ['ZooKeeper']
+---
+HA方案汇总：
+    1. influxdb: raft or ha relay
+
+
+paxos
+    - 算法上的解释，弄一个图来演示；该算法要解决的工程性问题
+    - 有哪些系统基于paxos算法，性能和运维问题
+    - ZK的体系架构，性能，流量和容量控制
+    - ZK的运维问题， hadoop生态是怎样使用ZK，如果ZK一旦出现问题，那么会有什么影响，我们怎样规避这些问题比如隔离？
+    - 我印象中ZK是被人诟病的，究竟有什么问题，什么原因导致的？
+    - ZK node的合理大小？ 写请求的合理大小？
+拜占庭条件和非拜占庭条件。
+
+
+
+- 什么是分布式协调系统
+- 有哪些产品
+- 它们基于什么算法和理论，简单介绍一下
+- 详细介绍一下ZK，从原理、案例、系统性能和容量、运维问题和业界所知的缺陷、其他重要的系统是怎样使用ZK的比如HDFS/YARN/HBase
+
+
+# 系统介绍
+
+## 流量分析， 容量管控
+
+# 使用案例
+
+## 正常使用方式
+
+## 注意事项
+
+# 运维问题
+
+
+
+
+
+
+
+
+
+# Reference
+
+https://blog.csdn.net/xhh198781/article/details/10949697
+https://blog.csdn.net/xhh198781/article/details/6587558
+https://liuzhengyang.github.io/2016/11/30/zk/
+raft http://thesecretlivesofdata.com/raft/

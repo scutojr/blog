@@ -1,0 +1,10 @@
+<div class="widget-wrap">
+  <h3 class="widget-title">Table of Content</h3>
+  <div class="widget">
+    <% if (is_home()){ %>
+      <%- list_posts({amount: 0-1}) %>
+    <% }else{ %>
+      <%- toc(page.content) %>
+    <% } %>
+  </div>
+</div>
