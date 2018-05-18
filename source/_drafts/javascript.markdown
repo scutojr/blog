@@ -224,3 +224,88 @@ class EventEntry extends React.Component {
     }
 }
 ```
+
+**current timestamp**
+```
+Date.now() // return current timestamp in millisecond
+
+new Date().getTime()
+```
+
+**time range in millisecond**
+```
+import {
+    Panel, Label, ButtonToolbar, ToggleButtonGroup, ToggleButton
+} from 'react-bootstrap'
+
+
+class DayPicker extends React.Component {
+
+    handleChange = (value) => {
+        let { start, end } = {
+            'all': DayPicker.getAll,
+            'thisWeek': DayPicker.getThisWeek,
+            'lastWeek': DayPicker.getLastWeek,
+            'thisMonth': DayPicker.getThisMonth,
+            'lastMonth': DayPicker.getLastMonth
+        }[value]()
+        if (this.props.onChange != undefined) {
+            this.props.onChange(start.getTime(), end.getTime())
+        }
+    }
+
+    static getAll = () => {
+        return {
+            start: new Date(0, 0, 0, 0, 0, 0, 0),
+            end: new Date()
+        }
+    }
+
+    static getThisWeek = () => {
+        let now = new Date()
+        return {
+            start: new Date(now.getFullYear(), now.getMonth(), now.getDate() - now.getDay() + 1, 0, 0, 0),
+            end: now
+        }
+    }
+
+    static getLastWeek = () => {
+        let now = new Date()
+        let start = new Date(now.getFullYear(), now.getMonth(), now.getDate() - now.getDay() - 6, 0, 0, 0)
+        let end = new Date(now.getFullYear(), now.getMonth(), now.getDate() - now.getDay() + 1, 0, 0, -1)
+        return { start, end }
+    }
+
+    static getThisMonth = () => {
+        let now = new Date()
+        return {
+            start: new Date(now.getFullYear(), now.getMonth(), 1, 0, 0, 0, 0),
+            end: now
+        }
+    }
+
+    static getLastMonth = () => {
+        let now = new Date()
+        let end = new Date(now.getFullYear(), now.getMonth(), 1, 0, 0, 0, -1)
+        let start = new Date(end.getFullYear(), end.getMonth(), 1, 0, 0, 0, 0)
+        return { start, end }
+    }
+
+    render() {
+        return (
+            <ButtonToolbar>
+                <ToggleButtonGroup type="radio" name="options" defaultValue="thisWeek" onChange={this.handleChange}>
+                    <ToggleButton value="all"> All </ToggleButton>
+                    <ToggleButton value="thisWeek"> This Week</ToggleButton>
+                    <ToggleButton value="lastWeek"> Last Week</ToggleButton>
+                    <ToggleButton value="thisMonth"> This Month</ToggleButton>
+                    <ToggleButton value="lastMonth"> Last Month</ToggleButton>
+                </ToggleButtonGroup>
+            </ButtonToolbar>
+        )
+    }
+}
+```
+
+
+

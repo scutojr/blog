@@ -34,6 +34,19 @@ Cursor.to_json() # instance of str
 
 ```
 
+**Meta**
+
+
+specify the collection for your document model
+```
+class Page(Document):
+    title = StringField(max_length=200, required=True)
+    meta = {'collection': 'cmsPage'}
+```
+
+
+
+
 # FAQ
 
 **how to update an embedded document in mongoengine**

@@ -26,6 +26,14 @@ paxos
 
 # 系统介绍
 
+## 有关分布式系统的特点
+
+一致性的类型是什么？
+
+zk is sequential consistency?
+
+zk选举的过程，延时有多长，延时受什么影响，会不会失败？
+
 
 ## 流量分析， 容量管控
 
@@ -146,12 +154,29 @@ ZK可以实现排他锁和读写锁，具体实现原理如下：
 
 # 运维问题
 
+
+default max znode size is 1 MB, https://issues.apache.org/jira/browse/YARN-2368
+
+jute.maxbuffer
+
 遇到过哪些运维故障？ 比如分离方案，为什么： hbase让zk过载，导致RM退出和不能及时启动。
 
+用的是什么版本?
+
+历史，使用场景，容量、性能、可用性等?
 
 需要关注哪些关键指标？
 
+运维指标：
+- ZooKeeper OutstandingNum 
+- Druid实时平台1.0：模拟Hubble场景压测Druid，压力达到2千万/分钟没问题，增加到5千万/分钟时遇到Zookeeper连接数瓶颈，正在解决
+- ZK跨机房HA的方案以及事件案例
+- 存活结点太多，splitWAL过程，造成ZooKeeper阻塞；需优化splitWAL的zk访问策略
 
+
+运维历史:
+- http://wiki.qiyi.domain/pages/viewpage.action?pageId=180569549
+- 
 
 
 
