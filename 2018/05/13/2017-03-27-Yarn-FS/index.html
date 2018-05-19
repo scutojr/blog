@@ -1,0 +1,118 @@
+<!DOCTYPE html><html><head><meta charset="UTF-8"><meta http-equiv="X-UA-Compatible" content="IE=edge"><meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"><meta name="description" content="Yarn FS"><meta name="keywords" content=""><meta name="author" content="John Doe,undefined"><meta name="copyright" content="John Doe"><title>Yarn FS | Hexo</title><link rel="shortcut icon" href="/favicon.ico"><link rel="stylesheet" href="/css/index.css"><link rel="stylesheet" href="https://cdn.staticfile.org/font-awesome/4.7.0/css/font-awesome.min.css?version=1.5.4"><link rel="dns-prefetch" href="https://cdn.staticfile.org"><link rel="dns-prefetch" href="https://cdn.bootcss.com"><link rel="dns-prefetch" href="https://creativecommons.org"><script>var GLOBAL_CONFIG = { 
+  root: '/',
+  algolia: undefined,
+  copy: {
+    success: 'Copy successfully',
+    error: 'Copy error',
+    noSupport: 'The browser does not support'
+  },
+  localSearch: undefined
+} </script></head><body><i class="fa fa-arrow-right" id="toggle-sidebar" aria-hidden="true"></i><div id="sidebar"><div class="toggle-sidebar-info text-center"><span data-toggle="Toggle article">Toggle site</span><hr></div><div class="sidebar-toc"><div class="sidebar-toc__title">Catalog</div><div class="sidebar-toc__progress"><span class="progress-notice">You've read</span><span class="progress-num">0</span><span class="progress-percentage">%</span><div class="sidebar-toc__progress-bar"></div></div><div class="sidebar-toc__content"><ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#Preview"><span class="toc-number">1.</span> <span class="toc-text">Preview</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#Fair-scheduler-inside"><span class="toc-number">1.1.</span> <span class="toc-text">Fair scheduler inside</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#The-process-of-allcating-container-for-AM"><span class="toc-number">1.1.1.</span> <span class="toc-text">The process of allcating container for AM</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#Related-Configuration-I-assume"><span class="toc-number">1.1.1.1.</span> <span class="toc-text">Related Configuration(I assume):</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#How-amp-When-to-release-container"><span class="toc-number">1.1.2.</span> <span class="toc-text">How&amp;When to release container?</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#The-process-of-NodeUpdate"><span class="toc-number">1.2.</span> <span class="toc-text">The process of NodeUpdate</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#FS-Algorithms-and-related-configuration"><span class="toc-number">1.3.</span> <span class="toc-text">FS Algorithms and related configuration</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#The-RM-command"><span class="toc-number">1.4.</span> <span class="toc-text">The RM command</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#FAQ"><span class="toc-number">1.5.</span> <span class="toc-text">FAQ</span></a></li></ol></li></ol></div></div><div class="author-info hide"><div class="author-info__avatar text-center"><img src="/img/avatar.png"></div><div class="author-info__name text-center">John Doe</div><div class="author-info__description text-center"></div><hr><div class="author-info-articles"><a class="author-info-articles__archives article-meta" href="/archives"><span class="pull-left">Articles</span><span class="pull-right">13</span></a><a class="author-info-articles__tags article-meta" href="/tags"><span class="pull-left">Tags</span><span class="pull-right">1</span></a><a class="author-info-articles__categories article-meta" href="/categories"><span class="pull-left">Categories</span><span class="pull-right">6</span></a></div></div></div><div id="content-outer"><div class="plain" id="top-container"><div id="page-header"><span class="pull-left"> <a id="site-name" href="/">Hexo</a></span><i class="fa fa-bars toggle-menu pull-right" aria-hidden="true"></i><span class="pull-right menus"><a class="site-page" href="/">Home</a><a class="site-page" href="/archives">Archives</a><a class="site-page" href="/tags">Tags</a><a class="site-page" href="/categories">Categories</a></span></div></div><div class="layout" id="content-inner"><article id="post"><div class="plain" id="post-title">Yarn FS</div><div id="post-meta"><time class="post-meta__date"><i class="fa fa-calendar" aria-hidden="true"></i> 2018-05-13</time><span class="post-meta__separator">|</span><i class="fa fa-inbox" aria-hidden="true"></i><a class="post-meta__categories" href="/categories/jekyll-update/"> jekyll update</a></div><div id="post-content"><h1 id="Preview"><a href="#Preview" class="headerlink" title="Preview"></a>Preview</h1><ul>
+<li>the whole process to allocate, update and reclaim resource</li>
+<li>mechanism from the view of lock and thread</li>
+<li>FS Metric</li>
+<li>performance limitation and what will cause this</li>
+<li>the process of RM startup</li>
+<li><strong>artifact:</strong> flow char to make everyone know the important detail of FS in terms of performance bottleneck, configuration&amp;metric&amp;log scope of influence, how does each sub component collaborate</li>
+</ul>
+<hr>
+<h2 id="Fair-scheduler-inside"><a href="#Fair-scheduler-inside" class="headerlink" title="Fair scheduler inside"></a>Fair scheduler inside</h2><p><strong>done</strong> updateThread</p>
+<p><strong>done</strong> updateCall</p>
+<p><strong>done</strong> Preemption</p>
+<p><strong>done</strong> Allocate</p>
+<p><strong>done</strong> NMUpdate</p>
+<p><strong>doing</strong> FS Algorithms and related configuration</p>
+<p><strong>doing</strong> RM command</p>
+<p>YARN HA &amp; Zookeeper<br>the class hierachy of FS<br>Yarn Preserve<br>Resource Preserved<br>Queue Structure and configuration<br>Policy, Priority, local&amp;rack local&amp;any<br>how to extract usful info form RM log? # make a flow char, introduce what kind of log will be generated on each flow point.<br>summarize the design pattern of RM and its class diagram<br>introcude how to inplement a state machine in Java&amp;Python, how state machine takes greate effect in YARN?<br>introcude java concurrent knowledge, lock level, class and example, performance, use case.(inspired by different type of lock usage in RM)<br>timeline server in YARN?<br>introduce DRF</p>
+<h3 id="The-process-of-allcating-container-for-AM"><a href="#The-process-of-allcating-container-for-AM" class="headerlink" title="The process of allcating container for AM"></a>The process of allcating container for AM</h3><p><strong>ResourceRequest:</strong><br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">priority</span><br><span class="line">resourceName</span><br><span class="line">capacity</span><br><span class="line">numContainers # decrease by 1 everytime this request is satisfied on allocation, if it reaches 0, the request will be removed</span><br><span class="line">relaxLocality: Boolean</span><br></pre></td></tr></table></figure></p>
+<p>Every allocateRequest and Response has a monotone increasing number to ensure its correctness.</p>
+<ol>
+<li>FS.releaseContainers(List<containerid>, SchedulerApplicationAttempt)<ul>
+<li>FS.completedContainer() in a for loop</li>
+</ul>
+</containerid></li>
+<li>lock(FSAppAttempt, current application)<ul>
+<li>upsert request in FSAppAttempt.appSchedulingInfo<blockquote>
+<p>app has lots of priorities, each priority has requests for different type of resource, each request has a numer of containers</p>
+</blockquote>
+</li>
+<li>FSAppAttempt.updateBlackList</li>
+<li>FSAppAttempt.pullNewlyAllocatedContainersAndNMTokens() # it means containers are allocated asynchronously.</li>
+</ul>
+</li>
+</ol>
+<h4 id="Related-Configuration-I-assume"><a href="#Related-Configuration-I-assume" class="headerlink" title="Related Configuration(I assume):"></a>Related Configuration(I assume):</h4><ol>
+<li>AM update interval</li>
+</ol>
+<hr>
+<h3 id="How-amp-When-to-release-container"><a href="#How-amp-When-to-release-container" class="headerlink" title="How&amp;When to release container?"></a>How&amp;When to release container?</h3><p><strong>entrance:</strong> (FS.lock) FS.completedContainer(RMContainer, ContainerStatus, RMContainerEventType) # unreserve or release container</p>
+<ol>
+<li>FSAppAttempt.containerCompleted()<ul>
+<li>remove from list of newly allocated containers</li>
+<li>send event to StateMachine to update the container state</li>
+<li>remove from list of containers</li>
+<li>update queue resource; update app resource consumption</li>
+<li>remove the container from preemption cache</li>
+</ul>
+</li>
+<li>remove container from SchedulerNode and add its available resource</li>
+<li>update root queue resource.(subqueue metrics might be a little out of date until the update interval)</li>
+</ol>
+<h2 id="The-process-of-NodeUpdate"><a href="#The-process-of-NodeUpdate" class="headerlink" title="The process of NodeUpdate"></a>The process of NodeUpdate</h2><p>// node resource is updated only on node registration<br>// what is NodeHeartbeatResponse.nextHeartbeatInterval?</p>
+<p><strong>ResourceTracker.nodeHeartbeat(NodeHeartbeatRequest)</strong>:<br>Here is the node heartbeat sequence…</p>
+<ol>
+<li>Check if it’s a registered node</li>
+<li>Check if it’s a valid (i.e. not excluded) node </li>
+<li>Check if it’s a ‘fresh’ heartbeat i.e. not duplicate heartbeat </li>
+<li>Send healthStatus to RMNode, update containers info of RMNode<br>//update response: (RMNode.writeLock.lock()) remove container,application from NM</li>
+<li>dispatch the NodeHeartbeatRequest to update the container status<br> [E]STATUS_UPDATE –&gt; RMNodeImpl –&gt; [E]NODE_UPDATE –&gt; (FS.lock )FS.nodeUpdate(RMNode)</li>
+<li>FS.nodeUpdate()<ul>
+<li>update the information of newly launched containers in AppAttempt</li>
+<li>completedContainer</li>
+<li></li>
+</ul>
+</li>
+</ol>
+<p>//TODO: will the nodeHeartbeat finish until the end of FS.nodeUpdate? Is dispatch sync or async?</p>
+<p>// TODO: hightlight the content of NMResponse to show what the NM will do</p>
+<h2 id="FS-Algorithms-and-related-configuration"><a href="#FS-Algorithms-and-related-configuration" class="headerlink" title="FS Algorithms and related configuration"></a>FS Algorithms and related configuration</h2><ol>
+<li>FS.nodeUpdate</li>
+<li>FS.continuousScheduling</li>
+</ol>
+<p>core: FSParentQueue.assignContainer(FSSchedulerNode)</p>
+<pre><code>1. 
+</code></pre><p>// if FSSchedulerNode.getReservedContainer!=null, this node doesn’t participate the assignment.<br>ParentQueue.assignContainer –&gt; LeafQueue.assignContainer –&gt; FSApp.assignContainer # depth first search based on priority</p>
+<h2 id="The-RM-command"><a href="#The-RM-command" class="headerlink" title="The RM command"></a>The RM command</h2><p>NodeAction.SHUTDOWN</p>
+<ul>
+<li>nodeManager version is not invalid</li>
+<li>node not in hostsList or in excludeList # I find it ok for both hostname and ip</li>
+<li>node doesn’t has enough minimum allocation resource<br>NodeAction.NORMAL</li>
+</ul>
+<h2 id="FAQ"><a href="#FAQ" class="headerlink" title="FAQ"></a>FAQ</h2><ol>
+<li>what is the AM Command?</li>
+<li>what is reserved container &amp; resource? How is it treated differently? # one node can only reserve one container; one app can reserve multiple containers for on different node for different priority; a node’s reserved container can be overridden by that of a more precedent app</li>
+<li>what is pending resource in AppSchedulingInfo?</li>
+<li>why to deactivate the application? activeUsersManager.deactivateApplication(user, applicationId)</li>
+<li>what is unmanged am?</li>
+<li>what is content in blackList of FSAppAttempt?</li>
+<li>what is the importance of FSAppAttempt headroom which is updated on allocation?</li>
+<li><p>what is clusterTimeStamp?</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">if (System.currentTimeMillis() - ResourceManager.getClusterTimeStamp()</span><br><span class="line">    &lt; nmExpireInterval) &#123;</span><br><span class="line">  LOG.info(containerId + &quot; doesn&apos;t exist. Add the container&quot;</span><br><span class="line">      + &quot; to the release request cache as it maybe on recovery.&quot;);</span><br><span class="line">  synchronized (attempt) &#123;</span><br><span class="line">    attempt.getPendingRelease().add(containerId);</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>nodeLocality, rackLocality</p>
+</li>
+<li>summarize all the event between FS, NM and AM as well as how those events are handled</li>
+<li><strong>important</strong> list all the resource name in FSAppAttempt, difference between request locality, LocalityThreshold? (vcore, memory? ANY, rackName, nodeName, off switch?) locality logic in FSApp.assignContainer?</li>
+<li><p>configurationj tuning</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line">/** Whether to assign multiple containers in one check-in. */</span><br><span class="line">public static final String  ASSIGN_MULTIPLE = CONF_PREFIX + &quot;assignmultiple&quot;;</span><br><span class="line">protected static final boolean DEFAULT_ASSIGN_MULTIPLE = false;</span><br><span class="line"></span><br><span class="line">/** Whether to give more weight to apps requiring many resources. */</span><br><span class="line">protected static final String  SIZE_BASED_WEIGHT = CONF_PREFIX + &quot;sizebasedweight&quot;;</span><br><span class="line">protected static final boolean DEFAULT_SIZE_BASED_WEIGHT = false;</span><br><span class="line"></span><br><span class="line">/** Maximum number of containers to assign on each check-in. */</span><br><span class="line">protected static final String MAX_ASSIGN = CONF_PREFIX + &quot;max.assign&quot;;</span><br><span class="line">protected static final int DEFAULT_MAX_ASSIGN = -1;</span><br><span class="line"></span><br><span class="line">/** The update interval for calculating resources in FairScheduler .*/</span><br><span class="line">public static final String UPDATE_INTERVAL_MS =</span><br><span class="line">    CONF_PREFIX + &quot;update-interval-ms&quot;;</span><br><span class="line">public static final int DEFAULT_UPDATE_INTERVAL_MS = 500;</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>what is applicableDepth and how to change it?</p>
+</li>
+<li>if assignContainerPreCheck(node) in FSLeafQueue.assignContainer is necessary ? this has been checked in the previous step</li>
+<li>how to determine the minShare, fairShare and weight of FSApp?</li>
+<li>replace the compairison method with the heap sort in FS?</li>
+<li>unmanagedAM is the AM runs on independent mode.</li>
+<li>what is the essential meaning of fairness, the chance of being scheduled? I find that some app use more resource than others, because of weight or usage based weight? will the resource of the lower weight app be preempted by a higher weight app of the same queue?</li>
+<li>what is the initial fair share of app?</li>
+</ol>
+</div></article><div class="post-copyright"><div class="post-copyright__author"><span class="post-copyright-meta">Author: </span><span class="post-copyright-info"><a href="mailto:undefined">John Doe</a></span></div><div class="post-copyright__type"><span class="post-copyright-meta">Link: </span><span class="post-copyright-info"><a href="http://yoursite.com/2018/05/13/2017-03-27-Yarn-FS/">http://yoursite.com/2018/05/13/2017-03-27-Yarn-FS/</a></span></div><div class="post-copyright__notice"><span class="post-copyright-meta">Copyright Notice: </span><span class="post-copyright-info">All articles in this blog are licensed under <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" target="_blank">CC BY-NC-SA 4.0</a> unless stating additionally.</span></div></div><div class="post-meta__tag-list"></div><nav id="pagination"><div class="prev-post pull-left"><a href="/2018/05/13/2017-06-1-Ansible-Src-Inside/"><i class="fa fa-chevron-left">  </i><span>Ansible Investigation</span></a></div><div class="next-post pull-right"><a href="/2018/05/07/mongo/"><span>Quick Overlook of Mongodb</span><i class="fa fa-chevron-right"></i></a></div></nav></div></div><footer><div class="layout" id="footer"><div class="copyright">&copy;2015 - 2018 By John Doe</div><div class="framework-info"><span>Driven - </span><a href="http://hexo.io"><span>Hexo</span></a><span class="footer-separator">|</span><span>Theme - </span><a href="https://github.com/Molunerfinn/hexo-theme-melody"><span>Melody</span></a></div><div class="busuanzi"><script async src="//dn-lbstatics.qbox.me/busuanzi/2.3/busuanzi.pure.mini.js"></script><span id="busuanzi_container_page_pv"><i class="fa fa-file-o"></i><span id="busuanzi_value_page_pv"></span><span></span></span></div></div></footer><i class="fa fa-arrow-up" id="go-up" aria-hidden="true"></i><script src="/js/third-party/anime.min.js"></script><script src="/js/third-party/jquery.min.js"></script><script src="/js/third-party/jquery.fancybox.min.js"></script><script src="/js/third-party/velocity.min.js"></script><script src="/js/third-party/velocity.ui.min.js"></script><script src="/js/utils.js?version=1.5.4"></script><script src="/js/fancybox.js?version=1.5.4"></script><script src="/js/sidebar.js?version=1.5.4"></script><script src="/js/copy.js?version=1.5.4"></script><script src="/js/fireworks.js?version=1.5.4"></script><script src="/js/transition.js?version=1.5.4"></script><script src="/js/scroll.js?version=1.5.4"></script><script src="/js/head.js?version=1.5.4"></script></body></html>
