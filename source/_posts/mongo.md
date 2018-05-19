@@ -2,7 +2,10 @@
 title: Quick Overlook of Mongodb
 tags:
   - mongodb
-categories: []
+categories:
+  - ojr
+  - test
+  - category
 date: 2018-05-07 00:20:20
 ---
 
