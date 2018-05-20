@@ -3,18 +3,18 @@
 ## Source: https://github.com/hexojs/hexo/
 
 # Site
-title: XXX
+title: OJR
 subtitle:
 description:
 keywords:
-author: YYY
+author: OJR
 language:
 timezone:
 
 # URL
 ## If your site is put in a subdirectory, set url as 'http://yoursite.com/child' and root as '/child/'
 url: http://yoursite.com
-root: /blog
+root: /
 permalink: :year/:month/:day/:title/
 permalink_defaults:
 
@@ -82,4 +82,4 @@ deploy:
   type: git
   repo: git@github.com:scutojr/blog.git
   branch: master
-  message: this is a blog based on hexo
+  message: change config

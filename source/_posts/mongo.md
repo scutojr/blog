@@ -661,7 +661,7 @@ load balance and migration based on chunk
 
 > https://docs.mongodb.com/manual/core/data-model-operations/#data-model-atomicity
 
-are atomic on the level of a single document.
+Are atomic on the level of a single document.
 
 embedding the available field and the checkout field within the same document ensures that you can update the two fields atomically.
 
@@ -698,9 +698,3 @@ db.clothes.find( { $and : [ { price: { $exists: true } }, { price: { $type: "str
   db.clothes.save( doc );
 } );
 ```
-
-
-
-
-
-
