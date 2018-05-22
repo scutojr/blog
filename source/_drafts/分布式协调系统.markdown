@@ -155,6 +155,20 @@ ZK可以实现排他锁和读写锁，具体实现原理如下：
 # 运维问题
 
 
+## 性能
+
+**并发写：**4000 qps
+**异步写：**20000 qps
+
+what is rollover?
+
+when does master switch?
+
+if a node failed to write data and client connect to it, how to ensure reading the latest data?
+
+why can observer improve performance? 
+
+
 default max znode size is 1 MB, https://issues.apache.org/jira/browse/YARN-2368
 
 jute.maxbuffer
@@ -176,9 +190,6 @@ jute.maxbuffer
 
 运维历史:
 - http://wiki.qiyi.domain/pages/viewpage.action?pageId=180569549
-- 
-
-
 
 
 # TODO
